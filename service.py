@@ -13,7 +13,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route("/")
 @cross_origin(app)
 async def test_fanction(request):
-    return json({'result': 'big things on the way'})
+    return json({'result': 'big things definitely on the way'})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port, debug=False)
