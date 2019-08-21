@@ -6,11 +6,11 @@ from sanic_cors import CORS, cross_origin
 
 app = Sanic(__name__)
 cors = CORS(app)
-port = os.environ['$PORT']
+port = os.environ.get('PORT', 8000)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 @cross_origin(app)
 async def test_fanction(request):
     return json({'result': 'big things on the way'})
