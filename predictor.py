@@ -38,6 +38,7 @@ def avg(team):
         age = (age) + (n['age']-19)/(100-19)
         gender = gender + ismale(n['gender'])
         married = married + n['married']
+    print(age)
     age = age/len(team)
     gender = gender/len(team)
     married = married/len(team)
@@ -93,9 +94,10 @@ def get_answers(team):
             pred[0][np.argmax(pred[0][4:])+4] = pred[0][np.argmax(pred[0][4:])+4]-1/len(team)
 
     drink_tuples = zip(['beer(s)', 'wine(s)', 'spirit(s)'],[beer_count, wine_count, spirits_count])
+    res = []
     for name, c in drink_tuples:
         if c > 0:
-            print(
-                'You should buy {serve} serving(s) of {types}'.format(serve=c, types=name)
-            )
-    return drink_tuples
+            
+               res.append('You should buy {serve} serving(s) of {types}'.format(serve=c, types=name))
+            
+    return res
