@@ -1,9 +1,10 @@
 import os
 
-from sanic import Sanic, request
-from sanic.response import json,text,redirect
+from sanic import Sanic, request, response
+from sanic.response import json
 from sanic_cors import CORS, cross_origin
 import predictor
+import json as j 
 
 app = Sanic(__name__)
 cors = CORS(app)
@@ -15,26 +16,25 @@ test_team = [{'age': 19, 'gender': 'Male', 'married': False},
  {'age': 57, 'gender': 'Female', 'married': True},
  {'age': 57, 'gender': 'Female', 'married': True}]
 
-
-@app.route("/", methods=['POST', 'GET'])
+@app.route("/" , methods=['POST'])
 @cross_origin(app)
 async def test_fanction(request):
-    answer = predictor.get_answers(test_team)
-    print(list(answer))
-    return json({'result': answer})
+    answer = married_to_bool(request.json)
+    predicted_sentences = predictor.get_answers(answer)
+    return response.json({'answer': predicted_sentences})
     
+@app.route("/" , methods=['OPTIONS'])
+@cross_origin(app)
+async def test_fanction(request):
+    return response.json({'looks':'good'})
 
-
-@app.route("/<name:string>" , methods=['GET'])
-async def funcname(request,name):
-    return json({'name' : name.format()})
-
-
-#this redirects all other traffice (i.e invalid trafic ) 
-@app.route('/<path:path>')
-async def catch_all(request , path=''):
-    return redirect('/')
+def married_to_bool(team):
+    for i in team:
+        i['married'] = i['married'] == 'Married' 
+    return team    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port, debug=True)
+
+
 
