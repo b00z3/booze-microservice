@@ -4,6 +4,7 @@ from sanic import Sanic, request, response
 from sanic.response import json
 from sanic_cors import CORS, cross_origin
 import predictor
+import iowa_predictor
 import json as j 
 
 app = Sanic(__name__)
@@ -24,6 +25,18 @@ async def test_fanction(request):
     return response.json({'answer': predicted_sentences})
     
 @app.route("/" , methods=['OPTIONS'])
+@cross_origin(app)
+async def test_fanction(request):
+    return response.json({'looks':'good'})
+
+@app.route("/iowa" , methods=['POST'])
+@cross_origin(app)
+async def test_fanction(request):
+    answer = married_to_bool(request.json)
+    predicted_sentences = iowa_predictor.get_answers(answer)
+    return response.json({'answer': predicted_sentences})
+
+@app.route("/iowa" , methods=['OPTIONS'])
 @cross_origin(app)
 async def test_fanction(request):
     return response.json({'looks':'good'})

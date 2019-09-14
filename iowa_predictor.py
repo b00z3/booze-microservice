@@ -4,7 +4,7 @@ import numpy as np
 import pickle 
 from collections import Counter
 
-with open('pickle_model.pkl', 'rb') as file:
+with open('iowa_predictor.sav', 'rb') as file:
     pickle_model = pickle.load(file)
 knn_clf = pickle_model
 totals = ['20 to 24 years of age Female Asian', '20 to 24 years of age Female Black', '20 to 24 years of age Female First Nations', 
@@ -75,13 +75,13 @@ def get_answers(team):
         if (least_dig < 5 ) : #fals in the less than 5 cat
             
             age = str(sig_dig) + " to " + str(sig_dig + 4 ) + " years of age "
-            gender = members['sex']
+            gender = members['gender']
             race = members['race']
             people_vec.append(age + gender + " " + race )
             
         else: # fals in greater than 5 
             age = str(sig_dig + 5) + " to " + str(sig_dig + 9 ) + " years of age "
-            gender = members['sex']
+            gender = members['gender']
             race = members['race']
             people_vec.append(age + gender + " " + race )
     
